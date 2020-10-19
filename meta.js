@@ -1,22 +1,4 @@
-module.export = {
-  "prompts": {
-    "isCustomName": {
-      "type"   : "confirm",
-      "message": "是否自定义系统名称？",
-    },
-    "sysName": {
-      "type"    : "input",
-      "when"    : "isCustomName",
-      "default" : "默认系统名称",
-      "message" : "请输入系统名称:",
-      "required": true,
-      "validate": function (val) {
-        if (!val) return '(✘) 请输入系统名称，该名称将设为 index.html 的 title';
-        return true;
-      },
-    },
-    // ...
-  },
+module.exports = {
   "helpers": {
     "neither": function (k, v1, v2, options) {
       if (k !== v1 && k !== v2) {
@@ -25,23 +7,40 @@ module.export = {
       return options.inverse(this);
     },
   },
-  "filters": {
-    "project/config/test.env.js": "unit || e2e",
-    "project/src/router/**/*": "router"
+  "prompts": {
+    "projectName": {
+      "type"   : "input",
+      "message": "项目名称：",
+    },
+    "description": {
+      "type"   : "input",
+      "message": "项目描述：",
+    },
+    "router": {
+      "type"   : "confirm",
+      "message": "是否安装 vue-router?",
+    },
+    "vuex": {
+      "type"   : "confirm",
+      "message": "是否使用 Vuex进行状态管理?",
+    }
   },
-  "metalsmith": function(metalsmith, opts, helpers) {
-    metalsmith.use(renamer({
-      index: {
-        pattern: 'project/**/+(Mobile|Admin)Index.vue',
-        rename: function(fileName) {
-          return 'Index.vue';
-        }
-      },
-      config: {
-        pattern: 'project/src/+(mobile|admin)Config.js',
-        rename: 'config.js'
-      },
-      //...
-    }))
-  }
+  "filters": {
+    "src/router/**/*": "router"
+  },
+  // "metalsmith": function(metalsmith, opts, helpers) {
+  //   metalsmith.use(renamer({
+  //     index: {
+  //       pattern: 'project/**/+(Mobile|Admin)Index.vue',
+  //       rename: function(fileName) {
+  //         return 'Index.vue';
+  //       }
+  //     },
+  //     config: {
+  //       pattern: 'project/src/+(mobile|admin)Config.js',
+  //       rename: 'config.js'
+  //     },
+  //     //...
+  //   }))
+  // },
 }
